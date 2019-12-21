@@ -1,0 +1,138 @@
+/*
+File: home.css
+Authors: Harsh Patel, Matthew Braden
+Last Edited: October 4, 2019
+Version: 1.1
+*/
+body {
+  background-color: white;
+}
+
+h1 {
+  color: white;
+  font-weight: bolder;
+  line-height: 1.2;
+  font-size: 2.5rem;
+}
+
+h6{
+  margin-top: 5px;
+}
+
+/*NAVBAR STYLES*/
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.navbar {
+  z-index: 1;
+  padding: 0.5rem 0;
+}
+
+.nav-link {
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+
+.nav-item {
+  padding: 0 10px;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+  color: white;
+}
+
+.nav-link.active {
+  border-bottom: 3px solid white;
+}
+
+.navbar-dark .navbar-toggler {
+  border-color: white;
+  margin-left: 10px;
+}
+
+.landing-header {
+  z-index: 1;
+  position: relative;
+  align-content: center;
+  text-align: center;
+  padding-top: 35vh;
+}
+/*NAVBAR STYLES END*/
+
+/*CAROUSEL STYLES*/
+.SlideShow {
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  position: fixed;
+  margin: 0;
+}
+
+.carousel-item {
+  height: 100vh;
+  min-height: 350px;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+}
+
+.camp {
+  height: 100vh;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+}
+
+.tower {
+  height: 100vh;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+}
+
+.falls {
+  height: 100vh;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+}
+/*CAROUSEL STYLES END*/
+
+/*Button to Enter Search Page*/
+.btn {
+  font-weight: bold;
+}
+
+/*FOOTER STYLES*/
+#footer {
+  z-index: 1;
+  color: white;
+  text-align: center;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 75px;
+  border-top: 1px solid white;
+}
+/*FOOTER STYLES END*/
+
+/*Mobile Friendly*/
+@media only screen and (max-width: 768px) {
+  .col {
+    width: 100%;
+    display: block;
+  }
+
+  .landing-header {
+    z-index: 1;
+    position: relative;
+    align-content: center;
+    text-align: center;
+    padding-top: 20vh;
+  }
+
+}

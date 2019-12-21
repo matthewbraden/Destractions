@@ -1,0 +1,158 @@
+<!--
+File: Upload.html
+Authors: Harsh Patel, Matthew Braden
+Last Edited: October 18, 2019
+Version: 2.0
+-->
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Upload</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <!--Import Google Icon Font-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <link rel="stylesheet" href="/css/upload.css">
+  <script src="https://kit.fontawesome.com/e30d6dff4d.js" crossorigin="anonymous"></script>
+  <!-- Sweetalerts package for js alerts -->
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+
+<body>
+
+  <!--Navbar section code starts here-->
+  <section id="page-nav">
+    <div class="navbar-fixed">
+      <nav>
+        <!--Triggers nav items to be in hamburger dropdown when page-size becomes smaller-->
+        <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons icon-black">menu</i></a>
+        <!--Navbar Brand with App title and logo-->
+        <ul>
+          <li id="logo" class="hide-on-med-and-down"><img src="https://png.pngtree.com/svg/20170909/map_141160.png" width="350" alt="Travel Tourist Attractions Set Isolated Vector Illustration Icon" /></li>
+          <li id="brand" class="brand-logo">Destractions</li>
+        </ul>
+        <!--Nav items and links to be placed on far left in the navbar-->
+        <ul class="left hide-on-med-and-down">
+          <li id="home"><a class="link" href="/">Home</a></li>
+          <li><a class="link" href="/search">Search</a></li>
+          <li class="active"><a class="link" href="/upload">Upload</a></li>
+        </ul>
+        <!--Nav items and links to be placed on far right in the navbar-->
+        <ul class="right hide-on-med-and-down">
+          <!--If User is logged in display logout else display sign up and login-->
+          <% if(!currentUser){ %>
+          <li><a class="link" href="/login">Login</a></li>
+          <li><a class="link" href="/SignUp">Sign Up</a></li>
+          <% } else { %>
+          <li><a class="link">Signed in As <%= currentUser.username %></a></li>
+          <li><a class="link" href="/logout">Logout</a></li>
+        <% } %>
+        </ul>
+      </nav>
+    </div>
+    <!--Sidenav triggered onclick of hamburger icon when page is smaller-->
+    <ul class="sidenav" id="mobile-demo">
+      <li><a href="/">Home</a></li>
+      <li><a href="/search">Search</a></li>
+      <li class="active"><a href="/upload">Upload</a></li>
+      <!--If User is logged in display logout else display sign up and login-->
+      <% if(!currentUser){ %>
+      <li><a href="/login">Login</a></li>
+      <li><a href="/SignUp">Sign Up</a></li>
+      <% } else { %>
+      <li><a>Signed in As <%= currentUser.username %></a></li>
+      <li><a href="/logout">Logout</a></li>
+      <% } %>
+    </ul>
+  </section>
+  <!--Navbar section code ends here-->
+
+  <!--Header Code for info card starts here-->
+  <header>
+    <div class="row">
+      <div class="info-card">
+        <div class="card-panel grey lighten-5">
+          <p class="card-title"><i class="material-icons location">location_on
+            </i> Add a New Landmark or Attraction that You Thought was Amazing or Not Worth Visting!</p>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!--Header Code for info card ends here-->
+
+  <!--Upload Section code starts here-->
+  <section id="Upload-Section">
+    <div class="container">
+      <!--Upload form starts here-->
+      <form class="Upload-form" action="/landmarkObjects" method="POST">
+        <h3>Add An Attraction</h3>
+        <!--input field for name required field-->
+        <div class="row">
+          <div class="input-field col s12 offset-m3 m6">
+            <input id="Name" type="text" class="validate" name="Name" maxlength="40" data-length="40" required/>
+            <label for="Name">Name</label>
+          </div>
+        </div>
+        <!--Input field for location Required Field-->
+        <div class="row">
+          <div class="input-field col s12 offset-m3 m6">
+            <input type="text" class="validate" name="location" id="location" placeholder="Enter Location" required/>
+          </div>
+        </div>
+        <!--Input field for Latitude optional field-->
+        <div class="row">
+          <div class="input-field col s6 offset-m3 m3">
+            <label for="Latitude">Latitude (Optional)</label>
+            <input type="text" class="validate" name="Latitude" id="Latitude"/>
+          </div>
+          <!--Input field for longitude Optional field-->
+          <div class="input-field col s6 m3">
+            <label for="Longitude">Longitude (Optional)</label>
+            <input type="text" class="validate" name="Longitude" id="Longitude"/>
+          </div>
+        </div>
+        <!--Input field for image upload required field-->
+        <div class="row">
+          <div class="input-field col s12 offset-m3 m6">
+            <input id="Image" type="text" class="validate" name="Image" required/>
+            <label for="Image">Image URL</label>
+          </div>
+        </div>
+        <!--Input field for Description required field-->
+        <div class="row">
+          <div class="input-field col s12 offset-m3 m6">
+            <textarea id="textarea2" name="Description" class="materialize-textarea validate" data-length="500" maxlength="500" required></textarea>
+            <label for="textarea2">Description</label>
+          </div>
+        </div>
+        <!--Button to submit and store inputted information of the user-->
+        <div class="valign-wrapper">
+          <button class="btn submit-btn waves-effect waves-light col offset-s5 s2 pulse" type="submit" name="action"><b>Submit</b>
+          </button>
+        </div>
+      </form>
+      <!--Upload form ends here-->
+    </div>
+  </section>
+  <!--Upload section code ends here-->
+
+  <!--Page footer-->
+  <footer id="footer">
+    <h6 class="footerH6">Destractions ©2019</h6>
+    <h6 class="footerH6">Created by Harsh Patel, Matthew Braden</h6>
+  </footer>
+
+  <!-- Autofil places google maps API -->
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCsWvwmI4WZCDDATRAcfgzwFVfXuNOM3Do&libraries=places"></script>
+  <script src="/JS/upload.js" charset="utf-8"></script>
+
+</body>
+
+</html>

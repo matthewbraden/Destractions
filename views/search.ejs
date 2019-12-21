@@ -1,0 +1,141 @@
+<!--
+File: search.ejs
+Authors: Harsh Patel, Matthew Braden
+Last Edited: November 18, 2019
+Version: 3.0
+-->
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Search</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <!--Import Google Icon Font-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <link rel="stylesheet" href="/css/search.css">
+  <script src="https://kit.fontawesome.com/e30d6dff4d.js" crossorigin="anonymous"></script>
+  <!-- sweetalerts package -->
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+</head>
+
+<body id="animated-back">
+
+  <!--Navbar section code starts here-->
+  <section id="page-nav">
+    <div class="navbar-fixed">
+      <nav>
+        <!--Triggers nav items to be in hamburger dropdown when page-size becomes smaller-->
+        <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons icon-black">menu</i></a>
+        <!--Navbar Brand with App title and logo-->
+        <ul>
+          <li id="logo" class="hide-on-med-and-down"><img src="https://png.pngtree.com/svg/20170909/map_141160.png" width="350" alt="Travel Tourist Attractions Set Isolated Vector Illustration Icon" /></li>
+          <li id="brand" class="brand-logo">Destractions</li>
+        </ul>
+        <!--Nav items and links to be placed on far left in the navbar-->
+        <ul class="left hide-on-med-and-down">
+          <li id="home"><a class="link" href="/">Home</a></li>
+          <li class="active"><a class="link" href="/search">Search</a></li>
+          <li><a class="link" href="/upload">Upload</a></li>
+        </ul>
+        <!--Nav items and links to be placed on far right in the navbar-->
+        <ul class="right hide-on-med-and-down">
+          <!--If User is logged in display logout else display sign up and login-->
+          <% if(!currentUser){ %>
+          <li><a class="link" href="/login">Login</a></li>
+          <li><a class="link" href="/SignUp">Sign Up</a></li>
+          <% } else { %>
+          <li><a class="link">Signed in As <%= currentUser.username %></a></li>
+          <li><a class="link" href="/logout">Logout</a></li>
+        <% } %>
+        </ul>
+      </nav>
+    </div>
+    <!--Sidenav triggered onclick of hamburger icon when page is smaller-->
+    <ul class="sidenav" id="mobile-demo">
+      <li><a href="/">Home</a></li>
+      <li class="active"><a href="/search">Search</a></li>
+      <li><a href="/upload">Upload</a></li>
+      <!--If User is logged in display logout else display sign up and login-->
+      <% if(!currentUser){ %>
+      <li><a href="/login">Login</a></li>
+      <li><a href="/SignUp">Sign Up</a></li>
+      <% } else { %>
+      <li><a>Signed in As <%= currentUser.username %></a></li>
+      <li><a href="/logout">Logout</a></li>
+      <% } %>
+    </ul>
+  </section>
+  <!--Navbar section code ends here-->
+
+  <!--Header Code for info card starts here-->
+  <header>
+    <div class="row">
+      <div class="info-card">
+        <div class="card-panel grey lighten-5 z-depth-1">
+          <h2 class="card-title"><img src="images/logo.png" alt="" class="">Welcome to Destractions</h2>
+          <p>Explore the Most Famous Natural/Tourist Landmarks in the World</p>
+          <a class="waves-effect btn landmark-btn" href="/landmarkObjects">View Existing Landmarks</a>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!--Header Code for info card ends here-->
+
+  <!--Search section code starts here-->
+  <section id="search-info">
+    <div class="container">
+      <!--Search form starts here-->
+      <form class="search-form" action="/landmarkObjects" method="GET"> <!-- So instead of POST which puts it in a req.body we use GET for req.query -->
+        <h5>Search for Landmarks:</h5>
+        <div class="row">
+          <!--Input field for Searching by name-->
+          <div class="input-field col s12 m6">
+            <!--Click icon to use geolocation services and get user location-->
+            <a href="#" id="getLoc" class="material-icons prefix gps tooltipped" data-tooltip="Click to Use Your Location">gps_fixed</a>
+            <label id="placehold" for="Search">Search by Name or Location</label>
+            <input type="text" class="validate" placeholder="Search by Name or Location" name="Search" id="Search" />
+          </div>
+          <!--Select field for searching by ratings-->
+          <div class="input-field col s12 m6">
+            <select name="starpicker" id="ratings">
+              <option name="" value="none" disabled selected>Search By Ratings</option>
+              <option name="star1" value="1">MINIMUM 1 Star - Waste of Money</option>
+              <option name="star2" value="2">MINIMUM 2 Stars - Waste of Time</option>
+              <option name="star3" value="3">MINIMUM 3 Stars - Not Bad, Wouldn't Go Again</option>
+              <option name="star4" value="4">MINIMUM 4 Stars - Awesome, Totally Worth It</option>
+              <option name="star5" value="5">MINIMUM 5 Stars - Amazing, I Would Love To Go Again</option>
+            </select>
+            <label>Ratings</label>
+          </div>
+        </div>
+        <!--Button to submit user search information-->
+        <div class="valign-wrapper">
+          <button class="btn search-btn waves-effect waves-light" id="SearchButton" type="submit"><b>Search</b>
+            <i class="material-icons right">send</i>
+        </div>
+      </form>
+      <!--search form ends here-->
+    </div>
+  </section>
+  <!--search section code ends here-->
+
+  <!--Page footer-->
+  <footer id="footer">
+    <h6 class="footerH6">Destractions ©2019</h6>
+    <h6 class="footerH6">Created by Harsh Patel, Matthew Braden</h6>
+  </footer>
+
+  <!--Google's Location Search engine API-->
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCsWvwmI4WZCDDATRAcfgzwFVfXuNOM3Do&libraries=places"></script>
+  <script src="/JS/search.js" charset="utf-8"></script>
+</body>
+
+</html>

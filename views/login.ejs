@@ -1,0 +1,133 @@
+<!--
+File: login.ejs
+Authors: Harsh Patel, Matthew Braden
+Last Edited: November 18, 2019
+Version: 3.0
+-->
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <!--Import Google Icon Font-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <link rel="stylesheet" href="/css/login.css">
+  <script src="https://kit.fontawesome.com/e30d6dff4d.js" crossorigin="anonymous"></script>
+  <!-- Sweetalerts package for js alerts -->
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+
+<body>
+
+  <!--Navbar section code starts here-->
+  <section id="page-nav">
+    <nav>
+      <!--Triggers nav items to be in hamburger dropdown when page-size becomes smaller-->
+      <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons icon-black">menu</i></a>
+      <!--Navbar Brand with App title and logo-->
+      <ul>
+        <li id="logo" class="hide-on-med-and-down"><img src="https://png.pngtree.com/svg/20170909/map_141160.png" width="350" alt="Travel Tourist Attractions Set Isolated Vector Illustration Icon" /></li>
+        <li id="brand" class="brand-logo">Destractions</li>
+      </ul>
+      <!--Nav items and links to be placed on far left in the navbar-->
+      <ul class="left hide-on-med-and-down">
+        <li id="home"><a class="link" href="/">Home</a></li>
+        <li><a class="link" href="/search">Search</a></li>
+        <li><a class="link" href="/upload">Upload</a></li>
+      </ul>
+      <!--Nav items and links to be placed on far right in the navbar-->
+      <ul class="right hide-on-med-and-down">
+        <!--If User is logged in display logout else display sign up and login-->
+        <% if(!currentUser){ %>
+        <li class="active"><a class="link" href="/login">Login</a></li>
+        <li><a class="link" href="/SignUp">Sign Up</a></li>
+        <% } else { %>
+        <li><a class="link">Signed in As <%= currentUser.username %></a></li>
+        <li><a class="link" href="/logout">Logout</a></li>
+      <% } %>
+      </ul>
+    </nav>
+    <!--Sidenav triggered onclick of hamburger icon when page is smaller-->
+    <ul class="sidenav" id="mobile-demo">
+      <li><a href="/">Home</a></li>
+      <li><a href="/search">Search</a></li>
+      <li><a href="/upload">Upload</a></li>
+      <!--If User is logged in display logout else display sign up and login-->
+      <% if(!currentUser){ %>
+      <li class="active"><a href="/login">Login</a></li>
+      <li><a href="/SignUp">Sign Up</a></li>
+      <% } else { %>
+      <li><a>Signed in As <%= currentUser.username %></a></li>
+      <li><a href="/logout">Logout</a></li>
+      <% } %>
+    </ul>
+  </section>
+  <!--Navbar section code ends here-->
+
+  <!--Header Code for info card starts here-->
+  <header>
+    <div class="row">
+      <div class="info-card">
+        <div class="card-panel grey lighten-5">
+          <p class="card-title"><i class="material-icons person">person</i> Login to Write reviews, Comment, Rate, and Upload New Landmarks!</p>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!--Header Code for info card ends here-->
+
+  <!--Login section code starts here-->
+  <section id="login-info">
+    <div class="container">
+      <!--login form starts here-->
+      <form class="login-form" action="/login" method="POST">
+        <h3>Login</h3>
+        <!--Input field for Username-->
+        <div class="row">
+          <div class="input-field col s12 offset-m3 m6">
+            <label for="user_Name">Username</label>
+            <input type="text" class="validate" name="username" id="user_Name" />
+          </div>
+        </div>
+        <!--Input field for password-->
+        <div class="row">
+          <div class="input-field col s12 offset-m3 m6">
+            <label for="password">Password</label>
+            <input type="password" class="validate" name="password" id="password" />
+          </div>
+        </div>
+        <!--Button to submit user information and authentication-->
+        <div class="valign-wrapper">
+          <button class="btn submit-btn waves-effect waves-light" type="submit"><b>Submit</b>
+            <i class="material-icons right">send</i>
+          </button>
+        </div>
+        <!--Link to sign up page for an account-->
+        <a href="/SignUp">
+          <h6 class="center-align AccountRedirect">Don't have an Account? Sign Up</h6>
+        </a>
+      </form>
+      <!--login form ends here-->
+    </div>
+  </section>
+  <!--Login section code ends here-->
+
+  <!--Page footer-->
+  <footer id="footer">
+    <h6 class="footerH6">Destractions ©2019</h6>
+    <h6 class="footerH6">Created by Harsh Patel, Matthew Braden</h6>
+  </footer>
+
+  <script src="/JS/login.js" charset="utf-8"></script>
+
+</body>
+
+</html>

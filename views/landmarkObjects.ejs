@@ -1,0 +1,186 @@
+<!--
+File: landmarkObjects.ejs
+Authors: Harsh Patel, Matthew Braden
+Last Edited: November 18, 2019
+Version: 3.0
+-->
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Landmarks Search Results</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <!--Import Google Icon Font-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <link rel="stylesheet" href="/css/landmarkObjects.css">
+  <script src="https://kit.fontawesome.com/e30d6dff4d.js" crossorigin="anonymous"></script>
+  <!-- Sweetalerts package for js alerts -->
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+
+<body>
+
+  <!--Navbar section code starts here-->
+  <section id="page-nav">
+    <div class="navbar-fixed">
+      <nav>
+        <!--Triggers nav items to be in hamburger dropdown when page-size becomes smaller-->
+        <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons icon-black">menu</i></a>
+        <!--Navbar Brand with App title and logo-->
+        <ul>
+          <li id="logo" class="hide-on-med-and-down"><img src="https://png.pngtree.com/svg/20170909/map_141160.png" width="350" alt="Travel Tourist Attractions Set Isolated Vector Illustration Icon" /></li>
+          <li id="brand" class="brand-logo">Destractions</li>
+        </ul>
+        <!--Nav items and links to be placed on far left in the navbar-->
+        <ul class="left hide-on-med-and-down">
+          <li id="home"><a class="link" href="/">Home</a></li>
+          <li><a class="link" href="/search">Search</a></li>
+          <li><a class="link" href="/upload">Upload</a></li>
+        </ul>
+        <!--Nav items and links to be placed on far right in the navbar-->
+        <ul class="right hide-on-med-and-down">
+          <!--Display login and sign up if user logged in else display logout-->
+          <% if(!currentUser){ %>
+          <li><a class="link" href="/login">Login</a></li>
+          <li><a class="link" href="/SignUp">Sign Up</a></li>
+          <!--Display login and sign up if user logged in else display logout-->
+          <% } else { %>
+          <li><a class="link">Signed in As <%= currentUser.username %></a></li>
+          <li><a class="link" href="/logout">Logout</a></li>
+        <% } %>
+        </ul>
+      </nav>
+    </div>
+    <!--Sidenav triggered onclick of hamburger icon when page is smaller-->
+    <ul class="sidenav" id="mobile-demo">
+      <li><a href="/">Home</a></li>
+      <li><a href="/search">Search</a></li>
+      <li><a href="/upload">Upload</a></li>
+      <!--Display login and sign up if user logged in else display logout-->
+      <% if(!currentUser){ %>
+      <li><a href="/login">Login</a></li>
+      <li><a href="/SignUp">Sign Up</a></li>
+      <!--Display login and sign up if user logged in else display logout-->
+      <% } else { %>
+      <li><a>Signed in As <%= currentUser.username %></a></li>
+      <li><a href="/logout">Logout</a></li>
+      <% } %>
+    </ul>
+  </section>
+  <!--Navbar section code ends here-->
+
+  <!--Header Code for info card starts here-->
+  <header>
+    <div class="row">
+      <div class="info-card">
+        <div class="card-panel grey lighten-5">
+          <!--Display "Your search Results" if search is successful else display "You search Results" with errors in noMatch-->
+          <p class="card-title"><i class="material-icons search">search</i>Your Search Results <%= noMatch %></p>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!--Header Code for info card ends here-->
+  <!--Objects as Tabular Cards Code-->
+  <div class="row">
+    <!--Produce card format for each landmark in the database-->
+    <% attractions.forEach(function(attraction){ %>
+    <div class="col s12 m6 l4">
+      <!--Tabular Card 1 represnting Object 1-->
+      <div class="card">
+        <!--Card Image-->
+        <div class="card-image">
+          <!--Show attraction image-->
+          <img class="images" src="<%= attraction.img%>" alt="">
+        </div>
+        <!--Card Tabs-->
+        <div class="card-tabs">
+          <ul class="tabs tabs-fixed-width">
+            <!---EJS doesn't seem to trim data by default. If your content has spaces, they should be preserved and thats a issue so we REPLACE white space below--->
+            <li class="tab"><a class="active" href="#<%= attraction.name.replace(/\s/g, "") %>"><%= attraction.name %></a></li>
+            <li class="tab" onclick="initMap('map<%= attraction.name.replace(/\s/g, "") %>', '<%= attraction.latitude %>', '<%= attraction.longitude %>', '<%= attraction.address %>')"><a href="#Map<%= attraction.name.replace(/\s/g, "") %>">Map Location</a></li>
+          </ul>
+        </div>
+        <!--Card Tab Content-->
+        <div class="card-content grey lighten-4">
+          <!--Show attraction description and rating-->
+          <div id="<%= attraction.name.replace(/\s/g, "") %>">
+            <p><%= attraction.descrip %></p>
+            <hr>
+            <!--Show rating if ratings available else show no ratings-->
+            <% if(attraction.rating.length !== 0){ %>
+            <p><b>Overall Ratings: <%= attraction.average %> Stars / 5 Stars</b></p>
+            <% }else{ %>
+            <p><b>No Ratings Yet</b></p>
+            <% } %>
+          </div>
+          <!-- Show Map in Map tab location of card -->
+          <div id="Map<%= attraction.name.replace(/\s/g, "") %>">
+            <div id="map<%= attraction.name.replace(/\s/g, "") %>" class="map"></div>
+          </div>
+        </div>
+        <!--Link to Individual Objects Page-->
+        <div class="card-action">
+          <a href="/IndividualObject/<%= attraction._id %>">Click here for more information</a>
+        </div>
+      </div>
+    </div>
+    <!--Embedded Javascript to produce dynamic maps with correct ejs information-->
+    <script>
+      //initialize google maps API for sample landmarks under map tab
+      function initMap(id, latitude, longitude, location) {
+        //Initialize map1's location
+        var element = document.getElementById(id);
+        if (!element.classList.contains('generated')) {
+          var map1 = new google.maps.Map(element, {
+            center: {
+              lat: Number(latitude),
+              lng: Number(longitude)
+            },
+            zoom: 10,
+            zoomControl: false,
+            mapTypeControl: true,
+            scaleControl: true,
+            streetViewControl: false,
+            rotateControl: true,
+            fullscreenControl: false,
+          });
+
+          //marker for map1's location
+          var marker1 = new google.maps.Marker({
+            position: map1.center,
+            map: map1
+          });
+
+          //infocard popup when clicking on marker
+          var infowindow1 = new google.maps.InfoWindow({
+            content: "<p>" + location + "</p> <a href=\"/IndividualObject/<%= attraction._id %>\">Click Here To See More</a>"
+          });
+
+          //activate popup on click of marker
+          marker1.addListener('click', function() {
+            infowindow1.open(map1, marker1);
+          });
+
+          element.classList.add('generated');
+        }
+      }
+    </script>
+    <% }); %>
+
+  </div>
+  <!--Tabular Card represnting Objects code end-->
+
+  <script src="/JS/landmarkObjects.js" charset="utf-8"></script>
+  <!-- Initialize google maps with API -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCsWvwmI4WZCDDATRAcfgzwFVfXuNOM3Do" async defer></script>
+</body>
+
+</html>

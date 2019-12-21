@@ -1,0 +1,128 @@
+/*
+File: IndividualObject.css
+Authors: Harsh Patel, Matthew Braden
+Last Edited: October 18, 2019
+Version: 2.0
+*/
+
+/*NAVBAR STYLES*/
+nav {
+  background-color: #f8f9fa;
+  opacity: 0.8;
+}
+
+#home {
+  margin-left: 190px;
+}
+
+#logo {
+  margin-left: 10px;
+}
+
+.link{
+  font-weight: 500;
+  font-size: 1.3rem;
+  color: #000000;
+}
+
+.nav-item{
+  padding: 0 10px;
+}
+
+#brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-left: 10px;
+  color: black;
+}
+
+img {
+  height: 50px;
+  width: 70px;
+  margin-top: 10px;
+}
+
+.icon-black {
+    color: black;
+}
+/*NAVBAR STYLES END*/
+
+/*FOOTER STYLES*/
+#footer {
+  margin-top: 60px;
+  z-index: 1;
+  text-align: center;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 75px;
+  border-top: 1px solid #ee6e73;
+}
+
+.footerH6{
+  font-size: 0.95rem;
+}
+/*FOOTER STYLES ENDS*/
+
+/*INFO CARD STYLES*/
+.info-card{
+  margin: auto;
+  width: 60%;
+  color: black;
+  text-align: center;
+  margin-top: 30px;
+}
+
+.card-title{
+  margin: auto;
+  font-weight: 500;
+}
+
+.card-panel{
+  padding: 0.3rem 0.1rem;
+}
+
+.card-logo{
+  display: inline;
+}
+
+.search{
+  float: left;
+  margin-left: 10px;
+}
+/*INFO CARD STYLES END*/
+
+.images{
+  height: auto;
+  width: 100%;
+  margin: auto;
+}
+
+/*Centering button*/
+.submit-btn{
+  margin: auto;
+}
+
+/*Custom map sizing for google maps*/
+.mapProperty{
+  height: 270px;
+  width: 100%;
+  margin: auto
+}
+
+@media only screen and (max-width: 768px) {
+  .col {
+    width: 100%;
+    display: block;
+  }
+
+  .info-card {
+  margin: auto;
+  width: 90%;
+  color: black;
+  text-align: center;
+  margin-top: 30px;
+  }
+
+}

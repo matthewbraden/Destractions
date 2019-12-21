@@ -1,0 +1,258 @@
+<!--
+File: IndividualObject.ejs
+Authors: Harsh Patel, Matthew Braden
+Last Edited: November 18, 2019
+Version: 3.0
+-->
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Landmarks Search Results</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <!--Import Google Icon Font-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <link rel="stylesheet" href="/css/IndividualObject.css">
+  <script src="https://kit.fontawesome.com/e30d6dff4d.js" crossorigin="anonymous"></script>
+  <!-- Sweetalerts package for js alerts -->
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+
+<body>
+  <!--Navbar section code starts here-->
+  <section id="page-nav">
+    <div class="navbar-fixed">
+      <nav>
+        <!--Triggers nav items to be in hamburger dropdown when page-size becomes smaller-->
+        <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons icon-black">menu</i></a>
+        <!--Navbar Brand with App title and logo-->
+        <ul>
+          <li id="logo" class="hide-on-med-and-down"><img src="https://png.pngtree.com/svg/20170909/map_141160.png" width="350" alt="Travel Tourist Attractions Set Isolated Vector Illustration Icon" /></li>
+          <li id="brand" class="brand-logo">Destractions</li>
+        </ul>
+        <!--Nav items and links to be placed on far left in the navbar-->
+        <ul class="left hide-on-med-and-down">
+          <li id="home"><a class="link" href="/">Home</a></li>
+          <li><a class="link" href="/search">Search</a></li>
+          <li><a class="link" href="/upload">Upload</a></li>
+        </ul>
+        <!--Nav items and links to be placed on far right in the navbar-->
+        <ul class="right hide-on-med-and-down">
+          <!--Display login and sign up if user is not logged in else display only logout-->
+          <% if(!currentUser){ %>
+          <li><a class="link" href="/login">Login</a></li>
+          <li><a class="link" href="/SignUp">Sign Up</a></li>
+          <!--Display login and sign up if user is not logged in else display only logout-->
+          <% } else { %>
+          <li><a class="link">Signed in As <%= currentUser.username %></a></li>
+          <li><a class="link" href="/logout">Logout</a></li>
+          <% } %>
+        </ul>
+      </nav>
+    </div>
+    <!--Sidenav triggered onclick of hamburger icon when page is smaller-->
+    <ul class="sidenav" id="mobile-demo">
+      <li><a href="/">Home</a></li>
+      <li><a href="/search">Search</a></li>
+      <li><a href="/upload">Upload</a></li>
+      <!--Display login and sign up if user is not logged in else display only logout-->
+      <% if(!currentUser){ %>
+      <li><a href="/login">Login</a></li>
+      <li><a href="/SignUp">Sign Up</a></li>
+      <!--Display login and sign up if user is not logged in else display only logout-->
+      <% } else { %>
+      <li><a>Signed in As <%= currentUser.username %></a></li>
+      <li><a href="/logout">Logout</a></li>
+      <% } %>
+    </ul>
+  </section>
+  <!--Navbar section code ends here-->
+
+  <!--Header Code for info card starts here-->
+  <header>
+    <div class="row">
+      <div class="info-card">
+        <div class="card-panel grey lighten-5">
+          <p class="card-title"><i class="material-icons search">search</i>More Details about <%= attraction.name%></p>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!--Header Code for info card ends here-->
+
+  <!--Image of Location and Map Location-->
+  <div class="container">
+    <div class="row">
+      <div class="col s12 m6">
+        <!--Display landmark or tourist attraction image-->
+        <img src="<%= attraction.img %>" alt="" class="images">
+      </div>
+      <div class="col s12 m6">
+        <!-- Google map with location -->
+        <div id="map" class="mapProperty"></div>
+      </div>
+    </div>
+  </div>
+  <!--Image of Location and Map Location end-->
+  <!--Embedded Javascript to produce dynamic google maps with incorporated ejs information-->
+  <script>
+    //Initialize google maps
+    function initMap() {
+      var map = new google.maps.Map(document.getElementById('map'), {
+        center: {
+          lat: Number("<%= attraction.latitude %>"),
+          lng: Number("<%= attraction.longitude %>")
+        },
+        zoom: 14,
+        zoomControl: false,
+        mapTypeControl: true,
+        scaleControl: true,
+        streetViewControl: false,
+        rotateControl: true,
+        fullscreenControl: false
+      });
+
+      //set marker on the location
+      var marker1 = new google.maps.Marker({
+        position: map.center,
+        map: map
+      });
+    }
+  </script>
+
+  <!--Collapsible to store details of the Individual Object-->
+  <div class="container">
+    <ul class="collapsible">
+      <!--Title of Landmark-->
+      <li>
+        <div class="collapsible-header"><i class="material-icons">map</i><span><%= attraction.name %> - Created By <b><%= attraction.author.username %></b></span></div>
+      </li>
+      <!--Description of Object-->
+      <ul class="collection">
+        <li class="collection-item">Description</li>
+        <li class="collection-item">
+          <!--Tourist attraction or landmark description-->
+          <p><%= attraction.descrip %></p>
+        </li>
+      </ul>
+
+      <div class="divider"></div>
+      <!--Location of Object-->
+      <li>
+        <div class="collapsible-header"><i class="material-icons">location_on</i>Location</div>
+        <div class="collapsible-body">
+          <!--Attraction location, latitude, and longitude information-->
+          <span>Location: <%= attraction.address %></span>
+          <br><span>Latitude: <%= attraction.latitude %></span>
+          <br><span>Longitude: <%= attraction.longitude %></span>
+        </div>
+      </li>
+      <!--Reviews, Ratings, and Comments on Object-->
+      <li class="active">
+        <div class="collapsible-header"><i class="material-icons">whatshot</i>
+          <!--Display the average ratings of the landmark if there are ratings else display no ratings yet-->
+          <% if(attraction.rating.length !== 0){ %>
+          <span>Comments & Ratings <em> - Overall Ratings: <%= attraction.average %> Stars / 5 Stars</em></span></div>
+        <% } else { %>
+        <span>Comments & Ratings <em> - No Ratings Yet</em></span>
+  </div>
+  <% } %>
+
+  <div class="collapsible-body">
+
+    <ul class="collection">
+      <li class="collection-item"><a class="waves-effect waves-light btn modal-trigger" href="#modal1">+ Add Comment</a></li>
+      <!-- Modal Structure for adding new comment -->
+      <div id="modal1" class="modal">
+        <div class="modal-content">
+          <center>
+            <h4><b>Add New Comment - <%= attraction.name %></b></h4>
+          </center>
+          <!--form to add a new comment for appropriate landmark-->
+          <form class="comment-form" action="/IndividualObject/<%= attraction._id %>" method="POST" id="comment-form">
+            <!--Input field for user comment-->
+            <div class="row">
+              <div class="input-field col s12 offset-m2 m8">
+                <textarea id="textarea1" class="materialize-textarea" name="userComment"></textarea>
+                <label for="textarea1">Add Your Comment</label>
+              </div>
+            </div>
+            <!--Drop down for ratings-->
+            <div class="row">
+              <div class="input-field col s12 offset-m2 m8">
+                <select name="starRating" id="ratingStar">
+                  <option value="" disabled selected>Search By Ratings</option>
+                  <option value="1">1 Star - Waste of Money</option>
+                  <option value="2">2 Stars - Waste of Time</option>
+                  <option value="3">3 Stars - Not Bad, Wouldn't Go Again</option>
+                  <option value="4">4 Stars - Awesome, Totally Worth It</option>
+                  <option value="5">5 Stars - Amazing, I Would Love To Go Again</option>
+                </select>
+                <label>Ratings</label>
+              </div>
+            </div>
+            <!--Button to submit user comments and authentication-->
+            <div class="valign-wrapper">
+              <button class="btn submit-btn waves-effect waves-light" type="submit" name="action"><b>Submit</b>
+                <i class="material-icons right">send</i>
+              </button>
+            </div>
+          </form>
+          <!--comment form end-->
+        </div>
+        <div class="modal-footer">
+          <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+        </div>
+      </div>
+      <!--comment modal structure end-->
+
+      <!--Find each comment associated to specific attraction and display them on the page-->
+      <% attraction.comments.forEach(function(comment){ %>
+      <!-- Comment-->
+      <li class="collection-item avatar">
+        <i class="material-icons person">person</i>
+        <!--Display Author and comment text-->
+        <span class="title"><%= comment.author.username %></span>
+        <p><%= comment.text %></p>
+        <div class="row star-rating">
+          <!--Display number of stars corresponding to rating-->
+          <% for(var i = 0; i < comment.rating; i++){ %>
+          <i class="material-icons">grade</i>
+          <% } %>
+        </div>
+      </li>
+      <% }); %>
+    </ul>
+
+  </div>
+  </ul>
+  <!--In order to show delete button for a attraction make sure there is a current user and that current user owns the attraction-->
+  <% if (currentUser && attraction.author.id.equals(currentUser._id)){%>
+  <form action="/IndividualObject/<%= attraction._id %>/del" method="POST" id="delete_form">
+    <button class="btn waves-effect waves-light red" type="submit" name="action"><b>Delete Attraction</b>
+      <i class="material-icons right">delete</i>
+    </button>
+  </form>
+  <% } %>
+  </div>
+  <!--Collapsible to store details of the Individual Object End-->
+
+  <!--Page footer-->
+  <footer id="footer">
+    <h6 class="footerH6">Destractions ©2019</h6>
+    <h6 class="footerH6">Created by Harsh Patel, Matthew Braden</h6>
+  </footer>
+
+  <script src="/JS/IndividualObject.js" charset="utf-8"></script>
+  <!-- Google maps API -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCsWvwmI4WZCDDATRAcfgzwFVfXuNOM3Do&callback=initMap" async defer></script>
+</body>
+
+</html>
